@@ -1,0 +1,291 @@
+<?php 
+$username = $_SESSION['username'];
+?>
+ <!-- ===============================================
+                ================= HEADER Content ===================
+                ================================================ -->
+                <section id="header" class="scheme-black header-scheme" data-scheme="scheme-black">
+                    <header class="clearfix scheme-black header-scheme" data-scheme="scheme-black">
+
+                        <!-- Branding -->
+                        <div class="branding scheme-black branding-scheme" data-scheme="scheme-black">
+                            <a class="brand" href="../index.html">
+                                <span>THE <strong>CUBE</strong></span>
+                            </a>
+                            <a role="button" tabindex="0" class="offcanvas-toggle visible-xs-inline"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <!-- Branding end -->
+
+
+
+                        <!-- Left-side navigation -->
+                        <ul class="nav-left pull-left list-unstyled list-inline scheme-black header-scheme" data-scheme="scheme-black">
+                            <li class="sidebar-collapse divided-right" id="nav-control">
+                                <a role="button" tabindex="0" class="collapse-sidebar">
+                                    <i class="fa fa-outdent"></i>
+                                </a>
+                            </li>
+                            <li class="dropdown divided-right settings">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <ul class="dropdown-menu with-arrow animated littleFadeInUp" role="menu">
+                                    
+                                    <li>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="col-xs-8 control-label">TV Mode</label>
+                                                <div class="col-xs-4 control-label">
+                                                    <div class="onoffswitch green small">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="tv-mode">
+                                                        <label class="onoffswitch-label" for="tv-mode">
+                                                            <span class="onoffswitch-inner"></span>
+                                                            <span class="onoffswitch-switch"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    
+                                </ul>
+                            </li>
+                            
+                        </ul>
+                        <!-- Left-side navigation end -->
+
+
+
+                         <!-- Right-side navigation -->
+                        <ul class="nav-right pull-right list-inline" id="right-side">
+                           
+                            <!-- NOTIFICATIONS -->
+                            <li id="notifications" class="dropdown notifications">
+
+                                <a href class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="badge bg-lightred" id="notificationBadge">0</span>
+                                </a>
+
+                                <div class="dropdown-menu pull-right with-arrow panel panel-default animated littleFadeInLeft">
+
+                                    <div class="panel-heading" id="panelHeading">
+                                        
+                                    </div>
+
+                                    <ul class="list-group" id="notificationList">
+
+                                        
+
+
+                                    </ul>
+
+                                    <div class="panel-footer">
+                                        <a role="button" tabindex="0">Show all notifications <i class="fa fa-angle-right pull-right"></i></a>
+                                    </div>
+
+                                </div>
+
+                            </li>
+                            <!-- END NOTIFICATIONS -->
+                        
+                         <li id="profile" class="dropdown nav-profile">
+
+                            <a href class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="../../assets/images/blank_user.jpg" alt="" class="img-circle size-30x30">
+                                <span id="currentUN"> <?php echo $username ?> <i class="fa fa-angle-down"></i></span>
+                            </a>
+
+                            <ul class="dropdown-menu animated littleFadeInRight" role="menu">
+
+                              
+                                
+                                <li>
+                                    <a id="logoutButton" href="login/logout.php" role="button" tabindex="0" >
+                                        <i class="fa fa-sign-out"></i>Logout
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </li>  
+                        </ul>
+                        <!-- Right-side navigation end -->
+
+
+
+                    </header>
+
+                </section>
+                <!--/ HEADER Content  -->
+
+
+
+
+
+
+<!-- Settings -->
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title custom-font" id="userSettingsTitle"></h3>
+            </div>
+            <div class="modal-body">
+                This is the landing page for custom user based settings.
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-ef btn-ef-3 btn-ef-3c"><i class="fa fa-arrow-right"></i> Close</button>
+                <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" data-dismiss="modal"><i class="fa fa-arrow-left"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/CUBE.js"></script> 
+
+<script>
+    
+    
+     $('#tv-mode').click(function() {
+         if (!$("#tv-mode").is(':checked')) {
+             $('#sidebar').show();
+             $('#right-side').show();
+             $('#nav-control').show();
+              $('#minovate').removeClass('sidebar-xs');
+
+            }
+            else {
+               $('#minovate').addClass('sidebar-xs');
+                $('#right-side').hide();
+                 $('#nav-control').hide();
+              $('#sidebar').hide();
+              
+            }
+            
+        });
+		 
+		 var admin = localStorage.getItem("admin")
+        var currentUN = localStorage.getItem("userName")
+		if (admin == "1"){
+			$("#currentUN").html(" <i class='fa fa-shield'></i>&nbsp;&nbsp;" + currentUN + " <i class='fa fa-angle-down'></i>");
+		 }
+		 else {
+			$("#currentUN").html(" " + currentUN + " <i class='fa fa-angle-down'></i>");
+		 }
+           
+
+             
+     $(window).load(function(){
+                
+                  
+     
+     
+                //Get Data from Ignition
+
+                //Initial Load
+                //getIgnitionDataH('header');
+
+                //Get Ignition Data
+                function getIgnitionDataH(funcNameH)
+                {
+                    $.ajax({
+                        //url: '/main/system/webdev/Mobile_POC/' + funcName,
+                        //url: 'http://cw6218alge.amer.consind.ge.com:8088/main/system/webdev/Mobile_POC/' + funcName,
+                        url: IgnitionURL + funcNameH,
+                        //url: IgnitionGateway + IgnitionProject + funcName,
+                        //data: myData,
+                        type: 'GET',
+                        dataType: 'jsonp',
+                        data: {},
+                        processData: true,
+                        jsonpCallback: 'returnData',
+                        success: function (data) {
+                            if (funcNameH == "header") {
+                            
+                                process_getHeaderData(data);
+                            }
+                        },
+                        error: function (xhr, status) {
+                            if (status == "timeout") {
+                                alert('A timeout occured while fetching data.');
+                            }
+                            else {
+                                console.log(' Fetch Data Failed: ' + status);
+                            }
+
+                        },
+                    });
+
+                }
+                
+                
+
+                //Data Processing
+                function process_getHeaderData(data) {
+                    //Do some stuff with the data
+                    //console.log(data);
+                    console.log('Ignition data retrieved.');
+                    
+                    var count = 0
+                    for (var key in data) {
+                        
+                        if (data.hasOwnProperty(key)) {
+                            //green = bg-primary
+                            //blue = bg-primary
+                            //red = bg-warning
+                            
+                           active = data[key].Active;
+                           
+                           if (active == 1) {
+                                count = count + 1
+                                
+                        
+                             name = data[key].Name;
+                            icon = data[key].Icon;
+                              date = data[key].Date;
+                               color = data[key].Color;
+                               $("#notificationList ul").append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
+                                $("#notificationList").append('<li class="list-group-item"><a role="button" tabindex="0" class="media"><span class="pull-left media-object media-icon ' + color + '"><i class="' + icon +'"></i></span><div class="media-body"><span class="block">' + name + '</span><small class="text-muted">' + date + '</small></div></a></li>');
+                            }
+                            
+                        }
+                    }
+                    
+                    $("#notificationBadge").html(String(count));
+                    if (data.length == 1) {
+                         $("#panelHeading").html("There is <strong>" + String(count) + "</strong> new notification");
+                    }
+                    else {
+                         $("#panelHeading").html("There are <strong>" + String(count) + "</strong> new notifications");
+                   }
+                    
+                   
+                }
+                
+                
+                
+               
+                function process_getSettingsH(data) {
+                    var RefreshRate = 60000;
+                    console.log('New Rate: ' + RefreshRate);
+
+                    // Refresh at Interval
+                    setInterval(function () {
+                       getIgnitionDataH('header');
+                    }, RefreshRate);
+                    
+                    //After getting settings, run the main data function
+                    //getIgnitionData('PlantEfficiency/home');
+                }
+                
+                
+
+               
+
+            });
+
+</script>
+
+

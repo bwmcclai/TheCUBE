@@ -1,0 +1,418 @@
+<?php require "login/loginheader.php"; 
+$username = $_SESSION['username'];
+$admin = $_SESSION['admin'];
+
+?>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+
+
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>THE CUBE</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+        <!-- ============================================
+        ================= Stylesheets ===================
+        ============================================= -->
+        <!-- vendor css files -->
+        <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/vendor/animate.css">
+        <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/js/vendor/animsition/css/animsition.min.css">
+        <link rel="stylesheet" href="assets/js/vendor/daterangepicker/daterangepicker-bs3.css">
+        <link rel="stylesheet" href="assets/js/vendor/morris/morris.css">
+        <link rel="stylesheet" href="assets/js/vendor/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="assets/js/vendor/owl-carousel/owl.theme.css">
+        <link rel="stylesheet" href="assets/js/vendor/rickshaw/rickshaw.min.css">
+        <link rel="stylesheet" href="assets/js/vendor/datetimepicker/css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="assets/js/vendor/datatables/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="assets/js/vendor/datatables/datatables.bootstrap.min.css">
+        <link rel="stylesheet" href="assets/js/vendor/chosen/chosen.css">
+        <link rel="stylesheet" href="assets/js/vendor/summernote/summernote.css">
+        
+        <link rel="stylesheet" href="assets/js/vendor/footable/css/footable.core.min.css">
+        
+        <link rel="stylesheet" href="assets/js/vendor/flipclock/flipclock.css">
+
+        <!-- project main css files -->
+        <link rel="stylesheet" href="assets/css/main.css">
+        <!--/ stylesheets -->
+
+
+
+        <!-- ==========================================
+        ================= Modernizr ===================
+        =========================================== -->
+        <script src="assets/js/vendor/modernizr/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <!--/ modernizr -->
+
+     <script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
+        <script type="text/javascript">
+           $(document).ready(function(){
+                $("#header").load("assets/html/header.html"); 
+                localStorage.setItem("userName", "<?php echo $username ?>");
+				localStorage.setItem("admin", "<?php echo $admin ?>");
+                localStorage.setItem("currentPage", "homeDashboard");
+                $("#sidebar-wrap").load("assets/html/navigationTree.html"); 
+           });
+        </script> 
+        
+     <style>
+         img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    #inner {
+  width: 95%;
+  margin: 0 auto;
+}
+    
+
+
+     </stylE>
+
+
+    </head>
+
+
+
+
+
+    <body id="minovate" class="appWrapper">
+
+
+
+
+
+
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ====================================================
+        ================= Application Content ===================
+        ===================================================== -->
+        <div id="wrap" class="animsition">
+
+
+
+
+
+
+            <!-- ===============================================
+            ================= HEADER Content LOAD DYNAMICALLY===================
+            ================================================ -->
+            <div id="header">
+
+             </div>
+
+
+
+
+
+            <!-- =================================================
+            ================= CONTROLS Content ===================
+            ================================================== -->
+            <div id="controls">
+
+
+
+
+
+                <!-- ================================================
+                ================= SIDEBAR Content LOADED DYNAMICALLY===================
+                ================================================= -->
+                <aside id="sidebar" class="scheme-black sidebar-scheme" data-scheme="scheme-black">
+
+
+                    <div id="sidebar-wrap">
+
+                        
+
+                    </div>
+
+
+                </aside>
+                <!--/ SIDEBAR Content -->
+
+
+
+
+
+                <!-- =================================================
+                ================= RIGHTBAR Content ===================
+                ================================================== -->
+                <aside id="rightbar">
+
+                    <div role="tabpanel">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#users" aria-controls="users" role="tab" data-toggle="tab"><i class="fa fa-users"></i></a></li>
+                            <li role="presentation"><a href="#history" aria-controls="history" role="tab" data-toggle="tab"><i class="fa fa-clock-o"></i></a></li>
+                            <li role="presentation"><a href="#friends" aria-controls="friends" role="tab" data-toggle="tab"><i class="fa fa-heart"></i></a></li>
+                            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab"><i class="fa fa-cog"></i></a></li>
+                        </ul>
+
+                        
+
+                    </div>
+
+                </aside>
+                <!--/ RIGHTBAR Content -->
+
+
+
+
+            </div>
+            <!--/ CONTROLS Content -->
+
+
+
+
+            <!-- ====================================================
+            ================= CONTENT ===============================
+            ===================================================== -->
+            <section id="content">
+
+                <div class="page page-dashboard">
+                
+                    <div class="row">
+
+                    
+                        <div class="col-md-10">
+                            
+                            <div class="pageheader">
+
+                            <h2><strong>Home</strong> Dashboard <span></span></h2>
+
+
+                        </div>
+
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+						
+                        </div>
+        
+                        <div class="col-md-6">
+                        <!-- tile -->
+                                <section class="tile tile-simple">
+
+                                    <!-- tile widget -->
+                                    <div class="tile-widget bg-danger text-center p-20">
+                                        <p class="text-elg text-strong mb-0"><i class="fa fa-star fa-1x "></i> Challenge 1 <i class="fa fa-star fa-1x "></i></p>
+                                    </div>
+                                    <!-- /tile widget -->
+
+                                    <!-- tile body -->
+                                    <div class="tile-body text-center">
+                                        <center>
+                                       
+                                        <p id="countdownclock" class="text-elg text-strong mb-0"></p>
+                                        </center>
+                                        <span class="text-muted">Time Until Challenge Begins</span>
+
+                                    </div>
+                                    <!-- /tile body -->
+
+                                </section>
+                                <!-- /tile -->
+                        </div>
+                    
+                    
+                    </div>
+                    
+                    
+                    
+                    <div class="row">
+      
+					
+                    
+                    </div>
+                    
+                    
+
+                </div>
+
+                
+            </section>
+            <!--/ CONTENT -->
+
+
+
+        </div>
+        <!--/ Application Content -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ============================================
+        ============== Vendor JavaScripts ===============
+        ============================================= -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery/jquery-1.11.2.min.js"><\/script>')</script>
+
+        <script src="assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+
+        <script src="assets/js/vendor/jRespond/jRespond.min.js"></script>
+
+        <script src="assets/js/vendor/d3/d3.min.js"></script>
+        <script src="assets/js/vendor/d3/d3.layout.min.js"></script>
+
+        <script src="assets/js/vendor/rickshaw/rickshaw.min.js"></script>
+
+        <script src="assets/js/vendor/sparkline/jquery.sparkline.min.js"></script>
+
+        <script src="assets/js/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <script src="assets/js/vendor/animsition/js/jquery.animsition.min.js"></script>
+
+        <script src="assets/js/vendor/daterangepicker/moment.min.js"></script>
+        <script src="assets/js/vendor/daterangepicker/daterangepicker.js"></script>
+
+        <script src="assets/js/vendor/screenfull/screenfull.min.js"></script>
+
+        <script src="assets/js/vendor/flot/jquery.flot.min.js"></script>
+        <script src="assets/js/vendor/flot-tooltip/jquery.flot.tooltip.min.js"></script>
+        <script src="assets/js/vendor/flot-spline/jquery.flot.spline.min.js"></script>
+
+        <script src="assets/js/vendor/easypiechart/jquery.easypiechart.min.js"></script>
+
+        <script src="assets/js/vendor/raphael/raphael-min.js"></script>
+        <script src="assets/js/vendor/morris/morris.min.js"></script>
+
+        <script src="assets/js/vendor/owl-carousel/owl.carousel.min.js"></script>
+
+        <script src="assets/js/vendor/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+        <script src="assets/js/vendor/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="assets/js/vendor/datatables/extensions/dataTables.bootstrap.js"></script>
+
+        <script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
+
+        <script src="assets/js/vendor/summernote/summernote.min.js"></script>
+
+        <script src="assets/js/vendor/coolclock/coolclock.js"></script>
+        <script src="assets/js/vendor/coolclock/excanvas.js"></script>
+        
+        
+        <script src="assets/js/vendor/jqvmap/jquery.vmap.min.js"></script>
+        <script src="assets/js/vendor/jqvmap/maps/jquery.vmap.world.js"></script>
+        <script src="assets/js/vendor/jqvmap/maps/jquery.vmap.usa.js"></script>
+        <script src="assets/js/vendor/jqvmap/maps/jquery.vmap.europe.js"></script>
+        <script src="assets/js/vendor/jqvmap/maps/jquery.vmap.germany.js"></script>
+        <script src="assets/js/vendor/jqvmap/data/jquery.vmap.sampledata.js"></script>
+        
+
+        <script src="assets/js/vendor/footable/footable.all.min.js"></script>
+         <script src="assets/js/vendor/flipclock/flipclock.min.js"></script>
+         <script src="assets/js/vendor/flipclock/jquery.countdown.min.js"></script>
+
+        <!--/ vendor javascripts -->
+
+
+
+
+        <!-- ============================================
+        ============== Custom JavaScripts ===============
+        ============================================= -->
+        <script src="assets/js/main.js"></script>
+        
+
+        <!--/ custom javascripts -->
+
+
+
+
+        <script src="assets/js/CUBE.js"></script> 
+
+
+
+        <!-- ===============================================
+        ============== Page Specific Scripts ===============
+        ================================================ -->
+        <script>
+
+            var getUrlParameter = function getUrlParameter(sParam) {
+                    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                        sURLVariables = sPageURL.split('&'),
+                        sParameterName,
+                        i;
+
+                    for (i = 0; i < sURLVariables.length; i++) {
+                        sParameterName = sURLVariables[i].split('=');
+
+                        if (sParameterName[0] === sParam) {
+                            return sParameterName[1] === undefined ? true : sParameterName[1];
+                        }
+                    }
+            };
+            
+            
+            $(window).load(function(){
+               
+                
+                
+                
+                
+                
+
+              $('#countdownclock').countdown('2017/05/15', function(event) {
+                $(this).html(event.strftime('%w weeks %d days %H:%M:%S'));
+              });
+
+     
+                               
+
+            });
+            
+          
+        </script>
+        <!--/ Page Specific Scripts -->
+
+
+
+
+
+
+       
+
+    </body>
+</html>

@@ -1,0 +1,112 @@
+  <div class="panel-group slim-scroll role="tablist">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#sidebarNav">
+                    Navigation <i class="fa fa-angle-up"></i>
+                </a>
+            </h4>
+        </div>
+        <div id="sidebarNav" class="panel-collapse collapse in" role="tabpanel">
+            <div class="panel-body" id="navigationTree">
+                <ul id="navigation" >
+                    <li id="homeDashboard"><a id="HomeDashboard_URL" href="index.html" ><i class="fa fa-home"></i> Home </a></li>
+                    <li id="myCube"><a id="myCube_URL" href="index.html" ><i class="fa fa-shield"></i> My Cube </a></li>
+					<li id="admin"><a id="admin_URL" href="index.html" ><i class="fa fa-shield"></i> Admin </a></li>
+					
+                    <!--<li id="admin1">
+                        <a role="button" tabindex="0"><i class="fa fa-shield"></i> <span> Admin </span></a>
+                        <ul>
+                            <li id="admin_UM"><a id="admin_UM_URL" href=""><i class="fa fa-caret-right"></i> User Management</a></li>
+         
+                        </ul>
+                    </li> -->
+                    
+                   
+               
+                </ul>
+                <!--/ NAVIGATION Content -->
+            </div>
+        </div>
+    </div> 
+
+    
+    <!-- To make a menu item say "new"  
+    <span class="label label-success">new</span>
+    -->
+    
+    
+    <!--/ External Pages Content -->
+    <br /><br />
+    <div class="panel settings panel-default">
+        <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#sidebarControls">
+                    External Pages <i class="fa fa-angle-up"></i>
+                </a>
+            </h4>
+        </div>
+        <div id="sidebarControls" class="panel-collapse collapse in" role="tabpanel">
+            <div class="panel-body">
+                <div class="form-group">
+                    <ul id="navigation">
+                         <!-- <li><a href="http://na-lams-prod"><i class="fa fa-circle-o"></i> PRISM Ignition Gateway</a></li> -->
+                        
+                    </ul>
+                 </div> 
+            </div>
+        </div>
+    </div>
+    <!--/ External Pages Content -->
+
+
+ </div> 
+
+     <script>
+     //$.getScript("assets/js/main.js");
+     </script> 
+
+<script>
+       
+
+        var currentPage = localStorage.getItem("currentPage");
+		var admin = localStorage.getItem("admin");
+		
+		 if (admin == "1") {
+	
+            $("#admin").show();
+        }
+        else {
+
+             $("#admin").hide();
+        };
+
+		
+        $("#" + currentPage).addClass("active");
+        
+        //if we are not within a folder, these are the URLs
+         $("#HomeDashboard_URL").attr("href", "index.html");
+         $("#admin_URL").attr("href", "admin.html");
+         
+         //var folder = 'admin/';
+         //$("#admin_URL").attr("href", folder + "admin.html");
+               
+        
+        //if we are within a folder, the URLs are different.
+        //if (currentPage.indexOf("admin") >= 0) {
+          //  $("#admin1").addClass("active");
+          //  $("#HomeDashboard_URL").attr("href", "../index.html");
+            
+           // $("#admin_URL").attr("href", "UserManagement.html");
+            
+
+            
+
+       // }
+        
+
+
+</script>
+<!--<script src="assets/js/main.js"></script>-->
+
+
