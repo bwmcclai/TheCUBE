@@ -1,0 +1,512 @@
+[
+    {
+        "id": "30f848ca.83df08",
+        "type": "tab",
+        "label": "Main"
+    },
+    {
+        "id": "ad704403.2957b8",
+        "type": "tab",
+        "label": "UI"
+    },
+    {
+        "id": "5ace1ee.d0039e",
+        "type": "tab",
+        "label": "Flow 3"
+    },
+    {
+        "id": "db7b7b49.561f68",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "13.92.245.176",
+        "port": "3306",
+        "db": "cube",
+        "tz": ""
+    },
+    {
+        "id": "54b0d764.b0dfb8",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    },
+    {
+        "id": "35e253b0.f92c9c",
+        "type": "websocket-listener",
+        "z": "",
+        "path": "/ws/thecube",
+        "wholemsg": "false"
+    },
+    {
+        "id": "708097ee.ceeb68",
+        "type": "debug",
+        "z": "30f848ca.83df08",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1210.5001220703125,
+        "y": 290.80006408691406,
+        "wires": []
+    },
+    {
+        "id": "31693473.aa4c6c",
+        "type": "mqtt in",
+        "z": "30f848ca.83df08",
+        "name": "cubeHealth",
+        "topic": "/cube/health",
+        "qos": "2",
+        "broker": "54b0d764.b0dfb8",
+        "x": 294.50002670288086,
+        "y": 339.1999864578247,
+        "wires": [
+            [
+                "867a7731.44bdf8",
+                "c5f44d01.77b67"
+            ]
+        ]
+    },
+    {
+        "id": "867a7731.44bdf8",
+        "type": "function",
+        "z": "30f848ca.83df08",
+        "name": "get Update Statement",
+        "func": "var cube = msg.payload.split(\"_\")[0].split(\":\")[1];\nvar cubeStatus = msg.payload.split(\"_\")[1].split(\":\")[1];\nvar query = \"UPDATE cubes set status = '\" + cubeStatus + \"', lastTime=now()  - INTERVAL 4 HOUR WHERE ID=\" + cube;\n//var query = \"UPDATE cubes set status = '1', lastTime=now() WHERE ID=1\";\n\nvar msg1 = { payload:cube};\nvar msg2 = { payload:cubeStatus };\nvar msg3 = { topic:query};\nreturn [  msg1, msg2, msg3 ];\n",
+        "outputs": "3",
+        "noerr": 0,
+        "x": 545.4999580383301,
+        "y": 384.4000549316406,
+        "wires": [
+            [],
+            [],
+            [
+                "2f39e9bb.bf5006"
+            ]
+        ]
+    },
+    {
+        "id": "2f39e9bb.bf5006",
+        "type": "mysql",
+        "z": "30f848ca.83df08",
+        "mydb": "db7b7b49.561f68",
+        "name": "updateStatusForCube",
+        "x": 801.9501419067383,
+        "y": 361.199987411499,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ba0bd766.d664d8",
+        "type": "mqtt in",
+        "z": "30f848ca.83df08",
+        "name": "cubeAction",
+        "topic": "/cube/action",
+        "qos": "2",
+        "broker": "54b0d764.b0dfb8",
+        "x": 326.00001525878906,
+        "y": 509.1999921798706,
+        "wires": [
+            [
+                "f7b8422b.39dfb"
+            ]
+        ]
+    },
+    {
+        "id": "cd2444e2.59d0a8",
+        "type": "debug",
+        "z": "30f848ca.83df08",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 937.5001373291016,
+        "y": 510.79998779296875,
+        "wires": []
+    },
+    {
+        "id": "e51e1ffe.b4b91",
+        "type": "function",
+        "z": "30f848ca.83df08",
+        "name": "cubeAction message",
+        "func": "var topic = 'cubeAction';\nvar cubeID = msg.payload.split(\"_\")[0].split(\":\")[1];\nvar cubeName = msg.payload.split(\"_\")[1].split(\":\")[1];\nvar cubeActionName = msg.payload.split(\"_\")[2].split(\":\")[0];\nvar cubeActionValue = msg.payload.split(\"_\")[2].split(\":\")[1];\n\nvar toaster = '';\nif (cubeActionName == \"buttonPress\" && cubeActionValue == \"1\"){\n    toaster = {'topic':topic,'cubeID': cubeID, 'cubeName':cubeName,'message':\"Pressed the button\"};\n}\n\nvar msg = { payload:toaster };\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 726.1999893188477,
+        "y": 509.1999683380127,
+        "wires": [
+            [
+                "4615dd75.792c34",
+                "cd2444e2.59d0a8"
+            ]
+        ]
+    },
+    {
+        "id": "4615dd75.792c34",
+        "type": "websocket out",
+        "z": "30f848ca.83df08",
+        "name": "thecube",
+        "server": "35e253b0.f92c9c",
+        "client": "",
+        "x": 931.5000762939453,
+        "y": 550,
+        "wires": []
+    },
+    {
+        "id": "f7b8422b.39dfb",
+        "type": "deduplicate",
+        "z": "30f848ca.83df08",
+        "name": "",
+        "keyproperty": "",
+        "expiry": "1",
+        "x": 492.5000228881836,
+        "y": 512.7999925613403,
+        "wires": [
+            [
+                "e51e1ffe.b4b91"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6b8ab73e.3dcdf8",
+        "type": "function",
+        "z": "30f848ca.83df08",
+        "name": "noResponse Update",
+        "func": "var query = \"UPDATE cubes set status = '0', lastTime=now() - INTERVAL 4 HOUR WHERE status = '1' AND ID > 0 AND lastTime <= now()  - INTERVAL 4 HOUR - INTERVAL 1 MINUTE\";\n\nvar msg = { topic:query};\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 551.1999855041504,
+        "y": 338.2000160217285,
+        "wires": [
+            [
+                "2f39e9bb.bf5006"
+            ]
+        ]
+    },
+    {
+        "id": "9d7f3155.59199",
+        "type": "inject",
+        "z": "30f848ca.83df08",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "x": 285.49999618530273,
+        "y": 287.8000030517578,
+        "wires": [
+            [
+                "6b8ab73e.3dcdf8",
+                "c5f44d01.77b67"
+            ]
+        ]
+    },
+    {
+        "id": "e414372e.c39fd8",
+        "type": "comment",
+        "z": "30f848ca.83df08",
+        "name": "Events for a Cube event",
+        "info": "",
+        "x": 583.9000244140625,
+        "y": 466.0000305175781,
+        "wires": []
+    },
+    {
+        "id": "f7dcf34f.94084",
+        "type": "comment",
+        "z": "30f848ca.83df08",
+        "name": "Events for a Cube Status Changes",
+        "info": "",
+        "x": 615.1999816894531,
+        "y": 242.1999969482422,
+        "wires": []
+    },
+    {
+        "id": "c5f44d01.77b67",
+        "type": "function",
+        "z": "30f848ca.83df08",
+        "name": "get Updated Table",
+        "func": "var query = \"select ID,cubeName,owner,status,DATE_FORMAT(lastTime, '%m/%d/%Y %H:%i %p') as lastTime from cubes\";\n\nvar msg = { topic:query};\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 545.3999938964844,
+        "y": 291.2000274658203,
+        "wires": [
+            [
+                "3e1776f4.69adaa"
+            ]
+        ]
+    },
+    {
+        "id": "3e1776f4.69adaa",
+        "type": "mysql",
+        "z": "30f848ca.83df08",
+        "mydb": "db7b7b49.561f68",
+        "name": "getResults",
+        "x": 761.4000282287598,
+        "y": 290.20002794265747,
+        "wires": [
+            [
+                "bad8f28f.817ab"
+            ]
+        ]
+    },
+    {
+        "id": "bad8f28f.817ab",
+        "type": "function",
+        "z": "30f848ca.83df08",
+        "name": "cubeHealth message",
+        "func": "var topic = 'cubeHealth';\nvar dbResults = msg.payload;\n\n\nvar message = {'topic':topic,'message': dbResults};\n\n\nvar msg = { payload:message };\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 985.9999885559082,
+        "y": 290,
+        "wires": [
+            [
+                "5422b400.fd366c",
+                "708097ee.ceeb68"
+            ]
+        ]
+    },
+    {
+        "id": "5422b400.fd366c",
+        "type": "websocket out",
+        "z": "30f848ca.83df08",
+        "name": "thecube",
+        "server": "35e253b0.f92c9c",
+        "client": "",
+        "x": 1200.2500190734863,
+        "y": 331.5000057220459,
+        "wires": []
+    },
+    {
+        "id": "2117a241.0dc22e",
+        "type": "debug",
+        "z": "ad704403.2957b8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 1289.0716972351074,
+        "y": 157.800048828125,
+        "wires": []
+    },
+    {
+        "id": "1dbaa241.341a6e",
+        "type": "comment",
+        "z": "ad704403.2957b8",
+        "name": "Cube Health",
+        "info": "",
+        "x": 690.9142189025879,
+        "y": 127.77144432067871,
+        "wires": []
+    },
+    {
+        "id": "33843794.f2fde8",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "get Updated Table",
+        "func": "var query = \"select ID,cubeName,owner,status,DATE_FORMAT(lastTime, '%m/%d/%Y %H:%i %p') as lastTime from cubes\";\n\nvar msg = { topic:query};\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 628.2571067810059,
+        "y": 179.62861251831055,
+        "wires": [
+            [
+                "7a39de3b.9931e"
+            ]
+        ]
+    },
+    {
+        "id": "7a39de3b.9931e",
+        "type": "mysql",
+        "z": "ad704403.2957b8",
+        "mydb": "db7b7b49.561f68",
+        "name": "getResults",
+        "x": 844.2571411132812,
+        "y": 178.6286129951477,
+        "wires": [
+            [
+                "6de0cf8c.e9633"
+            ]
+        ]
+    },
+    {
+        "id": "6de0cf8c.e9633",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "cubeHealth message",
+        "func": "var topic = 'cubeHealth';\nvar dbResults = msg.payload;\n\n\nvar message = {'topic':topic,'message': dbResults};\n\n\nvar msg = { payload:message };\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1068.8571014404297,
+        "y": 178.42858505249023,
+        "wires": [
+            [
+                "3ad63e84.5d6de2",
+                "2117a241.0dc22e"
+            ]
+        ]
+    },
+    {
+        "id": "3ad63e84.5d6de2",
+        "type": "websocket out",
+        "z": "ad704403.2957b8",
+        "name": "thecube",
+        "server": "35e253b0.f92c9c",
+        "client": "",
+        "x": 1279.00004196167,
+        "y": 200.28571128845215,
+        "wires": []
+    },
+    {
+        "id": "a69e6d2d.b24df",
+        "type": "websocket in",
+        "z": "ad704403.2957b8",
+        "name": "",
+        "server": "35e253b0.f92c9c",
+        "client": "",
+        "x": 120.71426773071289,
+        "y": 362.8572311401367,
+        "wires": [
+            [
+                "3ed1f9a5.e28206",
+                "191088fe.151ac7",
+                "a12a59e5.47c9c8",
+                "c3568e14.ffdaa"
+            ]
+        ]
+    },
+    {
+        "id": "3ed1f9a5.e28206",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "getCubeHealth",
+        "func": "if(msg.payload == \"UI:getCubeHealth\"){\n    return msg;\n}\n\n\n\n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 428.71424102783203,
+        "y": 182.57148933410645,
+        "wires": [
+            [
+                "33843794.f2fde8"
+            ]
+        ]
+    },
+    {
+        "id": "191088fe.151ac7",
+        "type": "debug",
+        "z": "ad704403.2957b8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 312.5713996887207,
+        "y": 113.4286060333252,
+        "wires": []
+    },
+    {
+        "id": "a12a59e5.47c9c8",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "getUsersCubeInfo",
+        "func": "if(msg.payload.includes(\"UI:getCubeInfo\")){\n    \n    var message = msg.payload.split(\",\")[1];\n    var result = {payload:message};\n    return result;\n}\n\n\n\n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 438.8571319580078,
+        "y": 303.1428508758545,
+        "wires": [
+            [
+                "5b1ec536.937e1c"
+            ]
+        ]
+    },
+    {
+        "id": "5b1ec536.937e1c",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "get user's Cubes",
+        "func": "var query = \"select ID,cubeName,status,DATE_FORMAT(lastTime, '%m/%d/%Y %H:%i %p') as lastTime from cubes where owner='\" + msg.payload + \"'\";\n\nvar msg = { topic:query};\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 654.2857208251953,
+        "y": 301.4285659790039,
+        "wires": [
+            [
+                "fead4a61.3e39d8"
+            ]
+        ]
+    },
+    {
+        "id": "fead4a61.3e39d8",
+        "type": "mysql",
+        "z": "ad704403.2957b8",
+        "mydb": "db7b7b49.561f68",
+        "name": "getResults",
+        "x": 844.2857189178467,
+        "y": 300.00000381469727,
+        "wires": [
+            [
+                "67279dde.6adb54"
+            ]
+        ]
+    },
+    {
+        "id": "67279dde.6adb54",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "cubeInfomessage",
+        "func": "var topic = 'cubeInfo';\nvar dbResults = msg.payload;\n\n\nvar message = {'topic':topic,'message': dbResults};\n\n\nvar msg = { payload:message };\n\nreturn msg;\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 1040,
+        "y": 300,
+        "wires": [
+            [
+                "3ad63e84.5d6de2"
+            ]
+        ]
+    },
+    {
+        "id": "c3568e14.ffdaa",
+        "type": "function",
+        "z": "ad704403.2957b8",
+        "name": "changeCubeName",
+        "func": "if(msg.payload.includes(\"UI:changeCubeName\")){\n    \n    var ID = msg.payload.split(\",\")[1].split(\":\")[1];\n    var newName = msg.payload.split(\",\")[2].split(\":\")[1];\n\n    \n    var query = \"UPDATE cubes set cubeName = '\" + newName + \"' where ID=\" + ID;\n\n    var msg = { topic:query};\n\n    return msg;\n\n\n}\n\n\n\n\n",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 422.8571472167969,
+        "y": 371.4285888671875,
+        "wires": [
+            [
+                "b5485495.aab148"
+            ]
+        ]
+    },
+    {
+        "id": "b5485495.aab148",
+        "type": "mysql",
+        "z": "ad704403.2957b8",
+        "mydb": "db7b7b49.561f68",
+        "name": "updateName",
+        "x": 619.7143173217773,
+        "y": 368.2857599258423,
+        "wires": [
+            []
+        ]
+    }
+]
