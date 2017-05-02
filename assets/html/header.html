@@ -33,6 +33,7 @@ $username = $_SESSION['username'];
                                     
                                     <li>
                                         <div class="form-group">
+											
                                             <div class="row">
                                                 <label class="col-xs-8 control-label">TV Mode</label>
                                                 <div class="col-xs-4 control-label">
@@ -146,7 +147,7 @@ $username = $_SESSION['username'];
 <script src="assets/js/CUBE.js"></script> 
 
 <script>
-    
+		
     
      $('#tv-mode').click(function() {
          if (!$("#tv-mode").is(':checked')) {
@@ -154,6 +155,7 @@ $username = $_SESSION['username'];
              $('#right-side').show();
              $('#nav-control').show();
               $('#minovate').removeClass('sidebar-xs');
+			  
 
             }
             else {

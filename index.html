@@ -41,7 +41,7 @@ $admin = $_SESSION['admin'];
         <link rel="stylesheet" href="assets/js/vendor/datatables/datatables.bootstrap.min.css">
         <link rel="stylesheet" href="assets/js/vendor/chosen/chosen.css">
         <link rel="stylesheet" href="assets/js/vendor/summernote/summernote.css">
-        
+        <link rel="stylesheet" href="assets/js/vendor/toastr/toastr.min.css">
         <link rel="stylesheet" href="assets/js/vendor/footable/css/footable.core.min.css">
         
         <link rel="stylesheet" href="assets/js/vendor/flipclock/flipclock.css">
@@ -344,6 +344,7 @@ $admin = $_SESSION['admin'];
         <script src="assets/js/vendor/footable/footable.all.min.js"></script>
          <script src="assets/js/vendor/flipclock/flipclock.min.js"></script>
          <script src="assets/js/vendor/flipclock/jquery.countdown.min.js"></script>
+		 <script src="assets/js/vendor/toastr/toastr.min.js"></script>
 
         <!--/ vendor javascripts -->
 
@@ -362,13 +363,67 @@ $admin = $_SESSION['admin'];
 
 
         <script src="assets/js/CUBE.js"></script> 
-
+	<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.8.0.js"></script>
+	
+		<script src="https://cdn.ably.io/lib/ably.min-1.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
 
         <!-- ===============================================
         ============== Page Specific Scripts ===============
         ================================================ -->
         <script>
+		
+
+		//  toastr["success"]("<strong>" +message.name + " said: </strong><br />" + message.data);
+	
+		
+		 var server = '52.14.243.2';
+         var ws;
+         var wsUri = "ws://" + server + ":1880/ws/thecube";
+
+        function wsConnect() {
+            console.log("connect",wsUri);
+			
+            ws = new WebSocket(wsUri);
+            //var line = "";    // either uncomment this for a building list of messages
+            ws.onmessage = function(msg) {
+                var data = jQuery.parseJSON(msg.data);
+				
+				if (data.topic == 'cubeAction'){
+					cubeAction(data);
+				}
+				
+            }
+            ws.onopen = function() {
+                // update the status div with the connection status
+                //document.getElementById('status').innerHTML = "connected";
+                //ws.send("Open for data");
+				$("#wsStatus").html("<i class='fa fa-cube></i>");
+                console.log("connected");
+            }
+            ws.onclose = function() {
+                // update the status div with the connection status
+                //document.getElementById('status').innerHTML = "not connected";
+                // in case of lost connection tries to reconnect every 3 secs
+                setTimeout(wsConnect,3000);
+            }
+        }
+        
+        function doit(m) {
+            if (ws) { ws.send(m); }
+        }
+		
+		function cubeAction(data) {
+			//console.log("An Action wasd received: " + data.topic);
+			toastr["success"]("<strong>" +data.cubeName + " said: </strong><br />" + data.message);
+		}
+		
+		
+	
+		
+			
 
             var getUrlParameter = function getUrlParameter(sParam) {
                     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -387,11 +442,29 @@ $admin = $_SESSION['admin'];
             
             
             $(window).load(function(){
-               
-                
-                
-                
-                
+			
+			wsConnect();
+			
+			//init();
+			
+			toastr.options = {
+			  "closeButton": false,
+			  "debug": false,
+			  "newestOnTop": false,
+			  "progressBar": false,
+			  "positionClass": "toast-bottom-center",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": "300",
+			  "hideDuration": "1000",
+			  "timeOut": "5000",
+			  "extendedTimeOut": "1000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}
+			
                 
 
               $('#countdownclock').countdown('2017/05/15', function(event) {
